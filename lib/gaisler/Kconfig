@@ -1,0 +1,4 @@
+menu "Gaisler"
+    source gaisler/can/Kconfig
+    source gaisler/leon3/Kconfig
+endmenu

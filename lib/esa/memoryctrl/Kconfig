@@ -1,0 +1,81 @@
+menuconfig MCTRL_LEON2
+    bool "Leon2 memory controller"
+    default y
+    help
+    Say Y here to enable the LEON2 memory controller. The controller
+    can access PROM, I/O, SRAM and SDRAM. The bus width for PROM
+    and SRAM is programmable to 8-, 16- or 32-bits.
+config MCTRL_8BIT
+    bool "8-bit PROM/SRAM bus support"
+    default y
+    depends on MCTRL_LEON2
+    help
+    If you say Y here, the PROM/SRAM memory controller will support
+    8-bit mode, i.e. operate from 8-bit devices as if they were 32-bit.
+    Say N to save a few hundred gates.
+config MCTRL_16BIT
+    bool "16-bit PROM/SRAM bus support"
+    default y
+    depends on MCTRL_LEON2
+    help
+    If you say Y here, the PROM/SRAM memory controller will support
+    16-bit mode, i.e. operate from 16-bit devices as if they were 32-bit.
+    Say N to save a few hundred gates.
+config MCTRL_5CS
+    bool "5th SRAM chip-select"
+    default n
+    depends on MCTRL_LEON2
+    help
+    If you say Y here, the 5th (RAMSN[4]) SRAM chip select signal will
+    be enabled. If you don't intend to use it, say N and save some gates.
+menuconfig MCTRL_SDRAM
+    bool "SDRAM controller"
+    default n
+    depends on MCTRL_LEON2
+    help
+    Say Y here to enabled the PC100/PC133 SDRAM controller. If you don't
+    intend to use SDRAM, say N and save about 1 kgates.
+config MCTRL_SDRAM_SEPBUS
+    bool "Separate address and data buses"
+    default n
+    depends on MCTRL_SDRAM
+    help
+    Say Y here if your SDRAM is connected through separate address
+    and data buses (SA & SD). This is the case on the GR-CPCI-XC2V6000
+    board, but not on the GR-PCI-XC2V3000 or Avnet XCV1500E boards.
+config MCTRL_SDRAM_BUS64
+    bool "64-bit SDRAM data bus"
+    default n
+    depends on MCTRL_SDRAM_SEPBUS
+    help
+	Say Y here to enable 64-bit SDRAM data bus.
+config MCTRL_SDRAM_INVCLK
+    bool "Unsynchronized sdclock"
+    default n
+    depends on MCTRL_SDRAM_SEPBUS
+    help
+    If you say Y here, the SDRAM controller output signals will be delayed
+    with 1/2 clock in respect to the SDRAM clock. This will allow the used
+    of an SDRAM clock which in not strictly in phase with the internal
+    clock. This option will limit the SDRAM frequency to 40 - 50 MHz.
+
+    On FPGA targets without SDRAM clock synchronizations through PLL/DLL, 
+    say Y. On ASIC targets, say N and tell your foundry to balance the 
+    SDRAM clock output.
+config MCTRL_PAGE
+    bool "Enable page burst operation"
+    default y
+    depends on MCTRL_SDRAM
+    help
+	Say Y here to enable SDRAM page burst operation. This will implement
+  	read operations using page bursts rather than 8-word bursts and save
+  	about 500 gates (100 LUTs). Note that not all SDRAM supports page 
+  	burst, so use this option with care.
+config MCTRL_PROGPAGE
+    bool "Enable programmable page burst"
+    default y
+    depends on MCTRL_PAGE
+    help
+    Say Y here to enable programmable SDRAM page burst operation. This
+    will allow to dynamically enable/disable page burst by setting
+    bit 17 in MCFG2.

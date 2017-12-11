@@ -1,0 +1,6 @@
+mainmenu "GRLIB configration"
+
+source grlib/Kconfig
+source esa/Kconfig
+source techmap/Kconfig
+source gaisler/Kconfig

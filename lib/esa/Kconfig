@@ -1,0 +1,6 @@
+menu "ESA config"
+
+source esa/memoryctrl/Kconfig
+source esa/pci/Kconfig
+
+endmenu

@@ -1,0 +1,7 @@
+menu "GRLIB settings"
+
+     source grlib/amba/Kconfig
+     source grlib/util/Kconfig
+     source techmap/Kconfig
+
+endmenu

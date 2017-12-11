@@ -1,0 +1,24 @@
+menu "PCI config"
+
+config PCI_ARBITER
+    bool "PCI arbiter"
+    default n
+    help
+	To enable a PCI arbiter, say Y here.
+config PCI_ARBITER_APB
+    bool "PCI arbiter APB interface"
+    default n
+    depends on PCI_ARBITER
+    help
+        Say Y here to enable the APB interface on the PCI arbiter. This makes
+  	it possible to dynamically re-assign PCI master priorities. See the
+  	PCI arbiter manual for details.
+config PCI_ARBITER_NREQ
+    int "Number of PCI REQ/GNT pairs"
+    default 4
+    depends on PCI_ARBITER
+    help
+        The number of PCI bus request/grant pairs. Should be not
+  	be more than 8. Note that the processor needs one, so the
+  	minimum should be 2.
+endmenu

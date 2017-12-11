@@ -1,0 +1,52 @@
+menuconfig STAT_ENABLE
+    bool "LEON3 Statistics Module"
+    default y
+    help
+    Say Y here to enable the LEON3 Statistical Unit. The unit consists
+    of a number of timers that can count various processor and MMU/FPU
+    events to allow analysis of processor behavior and performance.
+config STAT_CNT
+    int "Number of counters (1 - 64)"
+    default 4
+    depends on STAT_ENABLE
+    help
+    Set the number of 32-bit counters in the unit (1 - 32).
+config STAT_NMAX
+    int "Number of accumulative counters"
+    default 0
+    depends on STAT_ENABLE
+    help
+    If this value is higher than 0, the core will include functionality 
+    for tracking the longest consecutive time that an event is active or 
+    inactive. The functionality will be available for the nmax first 
+    counters. This value must not exceed the number of available counters.
+
+menuconfig LEON3
+    bool "Enable LEON3 SPARC V8 Processor"
+    default y
+
+config PROC_NUM
+    int "Number of processors"
+    default 1
+    depends on LEON3
+    help
+    The number of processor cores. The LEON3MP design can accomodate
+    up to 4 LEON3 processor cores. Use 1 unless you know what you are
+    doing ...
+
+choice LEON3_EXAMPLE
+    prompt "Force values from example configuration (see help)"
+    depends on LEON3
+    default LEON3_EXAMPLE_MIN
+config LEON3_EXAMPLE_MIN
+    bool "Minimal-configuration"
+config LEON3_EXAMPLE_GP
+    bool "General-purpose-cfg"
+config LEON3_EXAMPLE_HP
+    bool "High-Performance-cfg"
+config LEON3_EXAMPLE_CUSTOM
+    bool "Custom-configuration"
+endchoice
+
+if LEON3_EXAMPLE_MIN
+endif

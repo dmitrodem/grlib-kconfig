@@ -1,0 +1,5 @@
+menu "Technology mappings"
+
+source techmap/gencomp/Kconfig
+source techmap/clocks/Kconfig
+endmenu
