@@ -1,0 +1,14 @@
+CC := gcc
+lxdialog-cflags := -D_GNU_SOURCE -I/usr/include/ncursesw -DCURSES_LOC="<ncurses.h>" -DNCURSES_WIDECHAR=1
+lxdialog-ldflags := -lncursesw -ltinfow
+lxdialog-src := lxdialog/checklist.c  \
+		lxdialog/inputbox.c  \
+		lxdialog/menubox.c  \
+		lxdialog/textbox.c  \
+		lxdialog/util.c  \
+		lxdialog/yesno.c
+
+mconf-src := mconf.c zconf.tab.c $(lxdialog-src)
+
+mconf: $(mconf-src)
+	$(CC) -o $@ $(lxdialog-cflags)  $^ $(lxdialog-ldflags) 
