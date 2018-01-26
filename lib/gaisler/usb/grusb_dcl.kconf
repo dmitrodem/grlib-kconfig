@@ -1,0 +1,21 @@
+menuconfig GRUSB_DCL
+    bool "USB Debug Communication Link"
+    default n
+    help
+    Say Y to enable the USB Debug Communication Link
+
+choice
+    prompt "USB Transceiver Interface"
+    depends on GRUSB_DCL
+    default GRUSB_DCL_ULPI
+    help
+    Select the interface of the USB transceiver that the USBDCL will be
+    connected to.
+
+config GRUSB_DCL_ULPI
+    bool "ULPI"
+config GRUSB_DCL_UTMI8
+    bool "UTMI/UTMI+8-bit"
+config GRUSB_DCL_UTMI16
+    bool "UTMI/UTMI+16-bit"
+endchoice

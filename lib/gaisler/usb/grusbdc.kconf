@@ -1,0 +1,308 @@
+menuconfig GRUSBDC_ENABLE
+    bool "Gaisler Research USB 2.0 Device Controller"
+    default n
+    help
+    Say Y here to enable the Gaisler Research USB 2.0 Device Controller.
+    The core can be configured with 1-16 IN endpoints and 1-16 OUT 
+    endpoints (including endpoint zero). The core use an AHB slave
+    interface for configuration. For data transfers the the user have the
+    option of adding an AHB master interface for DMA, or to use the slave
+    interface. The core supports 8-bit and 16-bit UTMI/UTMI+ and 
+    ULPI interfaces towards the USB transceiver.
+
+config GRUSBDC_AIFACE
+    bool "AHB Master Interface"
+    depends on GRUSBDC_ENABLE
+    default n
+    help
+    Say Y here to enable the AHB master interface and DMA. When master
+    interface is disabled all data transfers are handled with the AHB
+    slave interface.
+
+choice
+    prompt "USB Transceiver Interface"
+    depends on GRUSBDC_ENABLE
+    default GRUSBDC_ULPI
+    help
+    Select the interface of the USB transceiver that the core will be
+    connected to.
+
+config GRUSBDC_ULPI
+    bool "ULPI"
+config GRUSBDC_UTMI8
+    bool "UTMI/UTMI+8-bit"
+config GRUSBDC_UTMI16
+    bool "UTMI/UTMI+16-bit"
+endchoice
+
+config GRUSBDC_NEPI
+    int "Number of IN endpoints"
+    depends on GRUSBDC_ENABLE
+    default 1
+    help
+    Select number of IN endpoints (including endpoint zero).
+    Valid range is 1 - 16.
+
+config GRUSBDC_NEPO
+    int "Number of OUT endpoints"
+    depends on GRUSBDC_ENABLE
+    default 1
+    help
+    Select number of OUT endpoints (including endpoint zero).
+    Valid range is 1 - 16.
+
+config GRUSBDC_I0
+    int "Buffer size for IN endpoint 0"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 0.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O0
+    int "Buffer size for OUT endpoint 0"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 0.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I1
+    int "Buffer size for IN endpoint 1"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 1.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O1
+    int "Buffer size for OUT endpoint 1"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 1.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I2
+    int "Buffer size for IN endpoint 2"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 2.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O2
+    int "Buffer size for OUT endpoint 2"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 2.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I3
+    int "Buffer size for IN endpoint 3"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 3.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O3
+    int "Buffer size for OUT endpoint 3"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 3.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I4
+    int "Buffer size for IN endpoint 4"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 4.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O4
+    int "Buffer size for OUT endpoint 4"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 4.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I5
+    int "Buffer size for IN endpoint 5"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 5.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O5
+    int "Buffer size for OUT endpoint 5"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 5.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I6
+    int "Buffer size for IN endpoint 6"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 6.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O6
+    int "Buffer size for OUT endpoint 6"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 6.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I7
+    int "Buffer size for IN endpoint 7"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 7.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O7
+    int "Buffer size for OUT endpoint 7"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 7.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I8
+    int "Buffer size for IN endpoint 8"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 8.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O8
+    int "Buffer size for OUT endpoint 8"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 8.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I9
+    int "Buffer size for IN endpoint 9"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 9.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O9
+    int "Buffer size for OUT endpoint 9"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 9.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I10
+    int "Buffer size for IN endpoint 10"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 10.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O10
+    int "Buffer size for OUT endpoint 10"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 10.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I11
+    int "Buffer size for IN endpoint 11"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 11.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O11
+    int "Buffer size for OUT endpoint 11"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 11.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I12
+    int "Buffer size for IN endpoint 12"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 12.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O12
+    int "Buffer size for OUT endpoint 12"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 12.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I13
+    int "Buffer size for IN endpoint 13"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 13.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O13
+    int "Buffer size for OUT endpoint 13"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 13.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I14
+    int "Buffer size for IN endpoint 14"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 14.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O14
+    int "Buffer size for OUT endpoint 14"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 14.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_I15
+    int "Buffer size for IN endpoint 15"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for IN endpoint 15.
+    Valid range is 8 - 3072.
+
+config GRUSBDC_O15
+    int "Buffer size for OUT endpoint 15"
+    depends on GRUSBDC_ENABLE
+    default 1024
+    help
+    Select buffer size (in bytes) for OUT endpoint 15.
+    Valid range is 8 - 3072.

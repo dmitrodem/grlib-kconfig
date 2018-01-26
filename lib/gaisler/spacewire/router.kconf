@@ -1,0 +1,286 @@
+menuconfig SPWRTR_ENABLE
+    bool "Enable Spacewire routing switch"
+    default n
+    help
+    Say Y here to enable the SpaceWire routing switch.
+
+choice
+    prompt "Select SpaceWire link receiver input type"
+    depends on SPWRTR_ENABLE
+    default SPWRTR_RX_DDR
+    help
+    Selects the input architecture for the SpaceWire link receiver in
+    SpaceWire ports. 
+    SDR = Single Data Rate sampling.
+    DDR = Double Data Rate sampling.
+    XOR = Xor gate generated clock from data and strobe.
+    XOR-ER1 = External clock recovery, SDR registers
+    XOR-ER2 = External clock recovery, DDR register 
+    AFLEX = Interface to external Aeroflex UT200SpWPHY01 component.
+
+config SPWRTR_RX_SDR
+    bool "SDR"
+config SPWRTR_RX_DDR
+    bool "DDR"
+config SPWRTR_RX_XOR
+    bool "XOR"
+config SPWRTR_RX_XORER1
+    bool "XOR-ER1"
+config SPWRTR_RX_XORER2
+    bool "XOR-ER2"
+config SPWRTR_RX_AFLEX
+    bool "Aeroflex"
+endchoice
+
+choice
+    prompt "Select SpaceWire link transmitter output type"
+    depends on SPWRTR_ENABLE
+    default SPW_TX_SDR
+    help
+    Selects the output architecture for the SpaceWire link transmitter in
+    SpaceWire ports. 
+    SDR = Single Data Rate output. Bitrate will be the same as txclk input
+    frequency.
+    DDR = Double Data Rate output. Bitrate will be twiche the txclk input
+    frequency.
+    AFLEX = Interface to external Aeroflex UT200SpWPHY01 component.
+
+config SPW_TX_SDR
+    bool "SDR"
+config SPW_TX_DDR
+    bool "DDR"
+config SPW_TX_AFLEX
+    bool "Aeroflex"
+endchoice
+
+config SPWRTR_RTSAME
+    bool "SpaceWire link receiver and transmitter uses same clock"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Say Y here if the same clock is connected to both the receiver
+    and transmitter used in the SpaceWire ports. This will remove two
+    asynchronous resets and some synchronization logic. This is only
+    applicable for the SDR and DDR inputs modes. 
+
+choice
+    prompt "Port receiver and transmitter FIFO size (SpW characters)"
+    depends on SPWRTR_ENABLE
+    default SPWRTR_RXFIFO64
+    help
+    Select the receiver and transmitter FIFO deptha (in Spw characters) 
+    for all ports.
+
+config SPWRTR_RXFIFO16
+    bool "16"
+config SPWRTR_RXFIFO32
+    bool "32"
+config SPWRTR_RXFIFO64
+    bool "64"
+config SPWRTR_RXFIFO128
+    bool "128"
+config SPWRTR_RXFIFO256
+    bool "256"
+config SPWRTR_RXFIFO512
+    bool "512"
+config SPWRTR_RXFIFO1024
+    bool "1024"
+config SPWRTR_RXFIFO2048
+    bool "2048"
+endchoice
+
+config SPWRTR_TECHFIFO
+    bool "Use technology specific RAM blocks for routing table and port FIFOs"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Say Y to enable technology specific RAM blocks to be used for
+    the routing table and port FIFOs. 
+
+choice
+    prompt "Select SpaceWire RAM fault-tolerance"
+    depends on SPWRTR_ENABLE
+    default SPWRTR_FT_NOFT
+    help
+    Select fault-tolernace against SEU errors in RAM blocks.
+    NOFT = Fault-tolerance disabled
+    PAR  = Parity
+    TMR  = Triple Modular redundancy
+
+config SPWRTR_FT_NOFT
+    bool "NoFT"
+config SPWRTR_FT_PAR
+    bool "Parity"
+config SPWRTR_FT_TMR
+    bool "TMR"
+endchoice
+
+config SPWRTR_SPWEN
+    bool "Enable Spacewire link ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable SpaceWire ports.
+
+config SPWRTR_SPWPORTS
+    int "Number of SpaceWire link ports (0 - 31)"
+    depends on SPWRTR_ENABLE && SPWRTR_SPWEN
+    default 2
+    help
+    Select the number of SpaceWire link ports to implement 
+    in the router.
+
+config SPWRTR_AMBAEN
+    bool "Enable AMBA ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable AMBA ports.
+
+config SPWRTR_AMBAPORTS
+    int "Number of AMBA ports (0 - 16)"
+    depends on SPWRTR_ENABLE && SPWRTR_AMBAEN
+    default 0
+    help
+    Select the number of AMBA ports to implement 
+    in the router. Each port will have an AHB master and an
+    APB slave interface.
+
+config SPWRTR_FIFOEN
+    bool "Enable FIFO ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable FIFO ports.
+
+config SPWRTR_FIFOPORTS
+    bool "Number of FIFO ports (0 - 31)"
+    depends on SPWRTR_ENABLE && SPWRTR_FIFOEN
+    default 0
+    help
+    Select the number of FIFO ports to implement 
+    in the router.
+
+choice
+    prompt "Select port arbitration"
+    depends on SPWRTR_ENABLE
+    default SPWRTR_ARB_RR
+    help
+    Select arbitration priority type. Currently unused.
+
+config SPWRTR_ARB_RR
+    bool "Round-robin"
+endchoice
+
+config SPWRTR_RMAP
+    bool "Enable hardware RMAP target in AMBA ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable hardware target support for the RMAP protocol in
+    the AMBA ports.
+
+choice
+    prompt "MAP buffer size (bytes)"
+    depends on SPWRTR_ENABLE && SPWRTR_RMAP
+    default SPWRTR_RMAPBUF2
+
+config SPWRTR_RMAPBUF2
+    bool "64"
+config SPWRTR_RMAPBUF4
+    bool "128"
+config SPWRTR_RMAPBUF6
+    bool "192"
+config SPWRTR_RMAPBUF8
+    bool "256"
+endchoice
+
+config SPWRTR_RMAPCRC
+    bool "Enable RMAP CRC support in AMBA ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable hardware calculation of the RMAP CRC checksum in the
+    AMBA ports. RMAP CRC is always enabled when the RMAP hardware 
+    target is enabled so this parameter will have no effect in that 
+    case.
+
+config SPWRTR_RXUNAL
+    bool "Enable Rx unaligned transfers in AMBA ports"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable support for byte writes used for non word-aligned 
+    receiver buffer addresses for the AMBA ports. Without this 
+    enabled data will still be written at the correct location 
+    but complete words will always be written so data outside 
+    the intended boundaries might be overwritten.
+
+choice
+    prompt "AMBA port AHB RX/TX FIFO size (32-bit words)"
+    depends on SPWRTR_ENABLE
+    default SPWRTR_FIFO2_16
+    help
+    Select the AHB FIFO depth (in 32-bit words) for the
+    AMBA ports.
+
+config SPWRTR_FIFO2_4
+    bool "4"
+config SPWRTR_FIFO2_8
+    bool "8"
+config SPWRTR_FIFO2_16
+    bool "16"
+config SPWRTR_FIFO2_32
+    bool "32"
+endchoice
+
+config SPWRTR_ALMOST
+    int "FIFO port almost indication range"
+    depends on SPWRTR_ENABLE
+    default 8
+    help
+    Sets the range from the full and empty conditions for 
+    which the almost full/empty signal will be set for
+    FIFO ports. For example the value 8 will cause the
+    almost full signal to be set when the FIFO has 
+    fifosize-8 or more characters.
+    
+config SPWRTR_DMACHAN
+    int "Number of DMA channels (1 - 4)"
+    depends on SPWRTR_ENABLE
+    default 1
+    help
+    Set the number of DMA channels for the AMBA ports.
+
+config SPWRTR_AHBSLVEN
+    bool "Enable configuration port AHB slave interface"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Enable the AHB slave interface to the router configuration
+    port.       
+
+config SPWRTR_TIMERBITS
+    int "Number of bits for Timer prescaler (0 disables timer)"
+    depends on SPWRTR_ENABLE
+    default 0
+    help
+    Set the number of bits to implement in the timer prescaler.
+    Setting this to zero disables the timer functionality. 
+
+config SPWRTR_PNP
+    bool "SpaceWire Plug and Play"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Say Y here to enable support for the SpaceWire Plug and Play
+    protocol. This an experimental feature as the PnP protocol is
+    not standardized yet.        
+    
+config SPWRTR_AUTOSCRUB
+    bool "Routing table Auto-scrubbing"
+    depends on SPWRTR_ENABLE
+    default n
+    help
+    Say Y here to enable Auto-scrubbing of the routing table.
+

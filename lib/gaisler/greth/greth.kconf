@@ -1,0 +1,58 @@
+menuconfig GRETH_ENABLE
+    bool "Gaisler Research 10/100/1000 Mbit Ethernet MAC"
+    default n
+    help
+    Say Y here to enable the Gaisler Research Ethernet MAC . The MAC has 
+    one AHB master interface to read and write packets to memory, and one
+    APB slave interface for accessing the control registers. 
+
+config GRETH_GIGA
+    bool "Enable 1000 Mbit support"
+    depends on GRETH_ENABLE
+    default n
+    help
+    Say Y here to enable the Gaisler Research 1000 Mbit Ethernet MAC . 
+    The 1G MAC is only available in the commercial version of GRLIB,
+    so do NOT enable it if you are using the GPL version.
+
+choice
+    prompt "AHB FIFO size (words)"
+    depends on GRETH_ENABLE && GRETH_GIGA
+    default GRETH_FIFO8
+    help
+    Set the depth of the receive and transmit FIFOs in the MAC core.
+    The MAC core will perform AHB burst read/writes with half the
+    size of the FIFO depth.
+config GRETH_FIFO4
+    bool "4"
+config GRETH_FIFO8
+    bool "8"
+config GRETH_FIFO16
+    bool "16"
+config GRETH_FIFO32
+    bool "32"
+config GRETH_FIFO64
+    bool "64"
+endchoice
+
+config GRETH_FT
+    bool "Enable fault-tolerance"
+    depends on GRETH_ENABLE && LEON3FT_PRESENT
+    default n
+    help
+    Enable fault-tolerance (parity with sparing) for internal RAM
+    in Ethernet core. Note that FT for EDCL buffer is enabled via
+    separate setting.
+
+config GRETH_EDCLFT
+    bool "Enable fault tolerance for EDCL buffer"
+    depends on GRETH_ENABLE && LEON3FT_PRESENT && GRETH_FT
+    default n
+    help
+    Enable protection for EDCL buffer. This is typically not used as
+    the EDCL debug link is not used in harsh environments.
+
+config GRETH_SGMII_MODE
+    bool "Enable SGMII"
+    depends on GRETH_ENABLE && GRETH_SGMII_PRESENT
+    default n

@@ -1,0 +1,5 @@
+config I2C_ENABLE
+    bool "Enable I2C master"
+    default n
+    help
+    Say Y here to enable the OpenCores I2C master.

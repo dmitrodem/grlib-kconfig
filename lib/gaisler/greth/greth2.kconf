@@ -1,0 +1,37 @@
+menuconfig GRETH2_ENABLE
+    bool "Enable second Gaisler Research 10/100/1000 Mbit Ethernet MAC"
+    depends on GRETH_ENABLE
+    default n
+    help
+    Say Y here to enable a second Gaisler Research Ethernet MAC . The MAC has 
+    one AHB master interface to read and write packets to memory, and one
+    APB slave interface for accessing the control registers. 
+
+config GRETH2_GIGA
+    bool "Enable 1000 Mbit support"
+    depends on GRETH2_ENABLE
+    default n
+    help
+    Say Y here to enable the Gaisler Research 1000 Mbit Ethernet MAC . 
+    The 1G MAC is only available in the commercial version of GRLIB,
+    so do NOT enable it if you are using the GPL version.
+
+choice
+    prompt "AHB FIFO size (words)"
+    depends on GRETH2_ENABLE && GRETH2_GIGA
+    default GRETH2_FIFO8
+    help
+    Set the depth of the receive and transmit FIFOs in the MAC core.
+    The MAC core will perform AHB burst read/writes with half the
+    size of the FIFO depth.
+config GRETH2_FIFO4
+    bool "4"
+config GRETH2_FIFO8
+    bool "8"
+config GRETH2_FIFO16
+    bool "16"
+config GRETH2_FIFO32
+    bool "32"
+config GRETH2_FIFO64
+    bool "64"
+endchoice

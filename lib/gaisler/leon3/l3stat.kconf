@@ -1,0 +1,24 @@
+menuconfig STAT_ENABLE
+    bool "Enable LEON3 Statistics Module"
+    default n
+    help
+    Say Y here to enable the LEON3 Statistical Unit. The unit consists
+    of a number of timers that can count various processor and MMU/FPU
+    events to allow analysis of processor behavior and performance. 
+
+config STAT_CNT
+    int "Number of counters (1 - 64)"
+    depends on STAT_ENABLE
+    default 4
+    help
+    Set the number of 32-bit counters in the unit (1 - 32).
+
+config STAT_NMAX
+    int "Number of accumulative counters"
+    depends on STAT_ENABLE
+    default 0
+    help
+    If this value is higher than 0, the core will include functionality 
+    for tracking the longest consecutive time that an event is active or 
+    inactive. The functionality will be available for the nmax first 
+    counters. This value must not exceed the number of available counters.

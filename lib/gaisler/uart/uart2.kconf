@@ -1,0 +1,30 @@
+menuconfig UART2_ENABLE
+    bool "Enable secondary UART"
+    default n
+    help
+    Say Y here to enable UART2, or the secondary UART. This UART can be
+    used to connect a second console (uClinux) or to control external
+    equipment.
+
+choice
+    prompt "UART2 FIFO depth"
+    depends on UART2_ENABLE
+    default UA2_FIFO1
+    help
+    The UART has configurable transmitt and receive FIFO's, which can
+    be set to 1 - 32 bytes. Use 1 for minimum area, or 8 - 32 for
+    maximum throughput.
+
+config UA2_FIFO1
+    bool "1"
+config UA2_FIFO2
+    bool "2"
+config UA2_FIFO4
+    bool "4"
+config UA2_FIFO8
+    bool "8"
+config UA2_FIFO16
+    bool "16"
+config UA2_FIFO32
+    bool "32"
+endchoice

@@ -1,0 +1,6 @@
+config DSU_UART
+    bool "Serial Debug Link (RS232)"
+    default n
+    help
+    Say Y to enable the AHB uart (serial-to-AHB). This is the most
+    commonly used debug communication link.

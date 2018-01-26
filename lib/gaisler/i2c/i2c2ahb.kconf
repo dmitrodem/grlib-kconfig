@@ -1,0 +1,61 @@
+menuconfig I2C2AHB
+    bool "Enable I2C to AHB bridge"
+    default n
+    help
+    Say Y here to enable I2C2AHB
+
+config I2C2AHB_APB
+    bool "Enable APB interface"
+    depends on I2C2AHB
+    default n
+    help
+    Say Y here to configure the core's APB interface
+
+config I2C2AHB_ADDRH
+    hex "AHB protection address (high)"
+    depends on I2C2AHB
+    default 0000
+    help
+    Defines address bits 31:16 of the core's AHB protection area 
+
+config I2C2AHB_ADDRL
+    hex "AHB protection address (low)"
+    depends on I2C2AHB
+    default 0000
+    help
+    Defines address bits 15:0 of the core's AHB protection area 
+
+config I2C2AHB_MASKH
+    hex "AHB protection mask (high)"
+    depends on I2C2AHB
+    default 0000
+    help
+    Defines mask bits 31:16 of the core's AHB protection area 
+
+config I2C2AHB_MASKL
+    hex "AHB protection mask (low)"
+    depends on I2C2AHB
+    default 0000
+    help
+    Defines mask bits 15:0 of the core's AHB protection area 
+
+config I2C2AHB_RESEN
+    bool "Enable after reset"
+    depends on I2C2AHB
+    default n
+    help
+    Say Y here to enable the core after reset (APB version only)
+
+config I2C2AHB_SADDR
+    hex "I2C memory address"
+    depends on I2C2AHB
+    default 50
+    help
+    The core's (initial) I2C memory address
+
+config I2C2AHB_CADDR
+    hex "I2C configuration address"
+    depends on I2C2AHB
+    default 51
+    help
+    The core's (initial) I2C configuration address

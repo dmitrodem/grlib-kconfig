@@ -1,0 +1,19 @@
+menuconfig GRCAN_ENABLE
+    bool "Enable GRCAN interface" 
+    help
+    Say Y here to enable GRCAN core.
+
+config GRCANIRQ
+    int "Interrupt number"
+    default 13
+    depends on GRCAN_ENABLE
+    help
+    Defines which interrupt number the CAN core will generate.
+
+config GRCANSINGLE
+    bool "Enable single common interrupt"
+    default n
+    depends on GRCAN_ENABLE
+    help
+    Say Y here to assign one   interrupt  (common).
+    Say N here to assign three interrupts (common, txsync, rxsync).
