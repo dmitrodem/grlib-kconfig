@@ -1,0 +1,86 @@
+menuconfig FTAHBRAM_ENABLE
+    bool "FT On-chip AHB RAM"
+    default n
+    help
+    Say Y here to add a block on on-chip ram to the AHB bus. The ram
+    provides 0-waitstates read access and 0/1 waitstates write access.
+    All AHB burst types are supported, as well as 8-, 16- and 32-bit
+    data size.
+
+choice
+    prompt "AHB RAM size (KiB)"
+    depends on FTAHBRAM_ENABLE
+    default FTAHBRAM_SZ1
+    help
+    Set the size of the on-chip AHB ram. The ram is infered/instantiated
+    as four byte-wide ram slices to allow byte and half-word write
+    accesses. It is therefore essential that the target package can
+    infer byte-wide rams. This is currently supported on the generic,
+    virtex, virtex2, proasic and axellerator targets.
+
+config FTAHBRAM_SZ1
+    bool "1"
+config FTAHBRAM_SZ2
+    bool "2"
+config FTAHBRAM_SZ4
+    bool "4"
+config FTAHBRAM_SZ8
+    bool "8"
+config FTAHBRAM_SZ16
+    bool "16"
+config FTAHBRAM_SZ32
+    bool "32"
+config FTAHBRAM_SZ64
+    bool "64"
+config FTAHBRAM_SZ128
+    bool "128"
+config FTAHBRAM_SZ256
+    bool "256"
+config FTAHBRAM_SZ512
+    bool "512"
+config FTAHBRAM_SZ1024
+    bool "1024"
+config FTAHBRAM_SZ2048
+    bool "2048"
+config FTAHBRAM_SZ4096
+    bool "4096"
+
+endchoice
+
+config FTAHBRAM_START
+    hex "RAM start address (haddr[31:20])"
+    depends on FTAHBRAM_ENABLE
+    default A00
+    help
+    Set the start address of AHB RAM (HADDR[31:20]). The RAM will occupy
+    a 1 Mbyte slot at the selected address. Default is A00, corresponding
+    to AHB address 0xA0000000.
+
+config FTAHBRAM_PIPE
+    bool "Pipelined implementation"
+    depends on FTAHBRAM_ENABLE
+    default n
+    help
+    Selects pipelined implementation of FTAHBRAM. This version always
+    includes EDAC and fixed size error counters. The pipelined implementation
+    does not support auto-scrubbing.
+
+config FTAHBRAM_EDAC
+    bool "EDAC enable"
+    depends on FTAHBRAM_ENABLE
+    default n
+    
+config FTAHBRAM_AUTOSCRUB
+    bool "Auto-scrubbing enable"
+    depends on FTAHBRAM_ENABLE
+    default n
+
+config FTAHBRAM_ERRORCNTR
+    bool "Error counter enable"
+    depends on FTAHBRAM_ENABLE
+    default n
+
+config FTAHBRAM_CNTBITS
+    int "Error counter bits"
+    depends on FTAHBRAM_ENABLE
+    default 2

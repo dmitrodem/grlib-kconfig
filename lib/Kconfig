@@ -4,3 +4,4 @@ source grlib/Kconfig
 source esa/Kconfig
 source techmap/Kconfig
 source gaisler/Kconfig
+source gaisler/l2cache/l2c.kconf

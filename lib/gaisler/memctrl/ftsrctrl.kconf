@@ -1,0 +1,125 @@
+menuconfig SRCTRLFT
+    bool "8/32-bit PROM/SRAM controller with EDAC"
+    default n
+    help
+    Say Y here to enable a  small PROM/SRAM memory controller with
+    EDAC protection (SEC/DED). The controller can ahve a fixed number
+    of waitstates, or be programmable through APB. The data bus is
+    always 32 bits.
+
+config SRCTRLFT_APBEN
+    bool "Enable APB interface"
+    depends on SRCTRLFT
+    default n
+    help
+    Enable programming of the controller through APB.
+
+config SRCTRLFT_PROMWS
+    int "PROM waitstates"
+    depends on SRCTRLFT && (! SRCTRLFT_APBEN)
+    default 3
+    help
+    Select the number of waitstates for PROM access.
+
+config SRCTRLFT_RAMWS
+    int "RAM waitstates"
+    depends on SRCTRLFT && (! SRCTRLFT_APBEN)
+    default 0
+    help
+    Select the number of waitstates for RAM access.
+
+config SRCTRLFT_IOWS
+    int "IO waitstates"
+    depends on SRCTRLFT && (! SRCTRLFT_APBEN)
+    default 0
+    help
+    Select the number of waitstates for IO access.
+
+config RCTRLFT_RMW
+    bool "Use read-modify-write for sub-word writes"
+    depends on SRCTRLFT
+    default y
+    help
+    Say Y here to perform byte- and half-word writes as a
+    read-modify-write sequence. This is necessary if your
+    SRAM does not have individual byte enables. If you are
+    unsure, it is safe to say Y.
+
+config SRCTRLFT_8BIT
+    bool "8-bit PROM interface"
+    depends on SRCTRLFT
+    default n
+    help
+    Say Y here to include support for 8-bit wide PROM devices.
+
+config RCTRLFT_EDAC
+    bool "Enable EDAC"
+    depends on SRCTRLFT
+    default n
+    help
+    Enable data error-correction using an EDAC.
+
+choice
+    prompt "SRAM banks"
+    depends on SRCTRLFT
+    default SRCTRLFT_SRBANKS1
+    help
+    Select number of SRAM banks (1 to 8).
+
+config SRCTRLFT_SRBANKS1
+    bool "1"
+config SRCTRLFT_SRBANKS2
+    bool "2"
+config SRCTRLFT_SRBANKS3
+    bool "3"
+config SRCTRLFT_SRBANKS4
+    bool "4"
+config SRCTRLFT_SRBANKS5
+    bool "5"
+config SRCTRLFT_SRBANKS6
+    bool "6"
+config SRCTRLFT_SRBANKS7
+    bool "7"
+config SRCTRLFT_SRBANKS8
+    bool "8"
+endchoice
+
+choice
+    prompt "SRAM fixed bank size, or programmable"
+    depends on SRCTRLFT
+    default SRCTRLFT_BANKSZ0
+config SRCTRLFT_BANKSZ0
+    bool "programmable"
+config SRCTRLFT_BANKSZ1
+    bool "16_kByte"
+config SRCTRLFT_BANKSZ2
+    bool "32_kByte"
+config SRCTRLFT_BANKSZ3
+    bool "64_kByte"
+config SRCTRLFT_BANKSZ4
+    bool "128_kByte"
+config SRCTRLFT_BANKSZ5
+    bool "256_kByte"
+config SRCTRLFT_BANKSZ6
+    bool "512_kByte"
+config SRCTRLFT_BANKSZ7
+    bool "1_MByte"
+config SRCTRLFT_BANKSZ8
+    bool "2_MByte"
+config SRCTRLFT_BANKSZ9
+    bool "4_MByte"
+config SRCTRLFT_BANKSZ10
+    bool "8_MByte"
+config SRCTRLFT_BANKSZ11
+    bool "16_MByte"
+config SRCTRLFT_BANKSZ12
+    bool "32_MByte"
+config SRCTRLFT_BANKSZ13
+    bool "64_MByte"
+config SRCTRLFT_BANKSZ14
+    bool "128_MByte"
+config SRCTRLFT_BANKSZ15
+    bool "256_MByte"
+endchoice
+
+

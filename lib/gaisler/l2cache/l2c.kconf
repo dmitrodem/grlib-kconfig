@@ -1,0 +1,140 @@
+menuconfig L2_ENABLE
+    bool "L2 Cache"
+    default n
+
+choice
+    prompt "Associativity (ways)"
+    depends on L2_ENABLE
+    default L2_ASSO1
+    help
+    Select how many cache ways the L2 cache should have.
+
+config L2_ASSO1
+    bool "1"
+config L2_ASSO2
+    bool "2"
+config L2_ASSO3
+    bool "3"
+config L2_ASSO4
+    bool "4"
+endchoice
+
+choice
+    prompt "Way size (kbytes/way)"
+    depends on L2_ENABLE
+    default L2_SZ64
+    help
+    Select the szie of each way in kbytes. The total L2 cache
+    size will be way size * number of ways.
+
+config L2_SZ1
+    bool "1"
+config L2_SZ2
+    bool "2"
+config L2_SZ4
+    bool "4"
+config L2_SZ8
+    bool "8"
+config L2_SZ16
+    bool "16"
+config L2_SZ32
+    bool "32"
+config L2_SZ64
+    bool "64"
+config L2_SZ128
+    bool "128"
+config L2_SZ256
+    bool "256"
+config L2_SZ512
+    bool "512"
+endchoice
+
+choice
+    prompt "Line size (bytes)"
+    depends on L2_ENABLE
+    default L2_LINE32
+    help
+    The L2 cache can have either 16 or 32 bytes per line. It is
+    recommened to use 32 bytes for best performance.
+
+config L2_LINE32
+    bool "32"
+config L2_LINE64
+    bool "64"
+endchoice
+
+config L2_HPROT
+    bool "Use HPROT information"
+    depends on L2_ENABLE
+    default n
+    help
+    Say yes here to enable the AHB HPROT signals to define if an
+    L2 access should be cached. Should be disabled for now until
+    all I/O units in grlib generate these signals correctly.
+
+config L2_PEN
+    bool "Enable L2 cache at power-on"
+    depends on L2_ENABLE
+    default n
+    help
+    Say yes here to enable the L2 cache directly after reset.
+    This will allow to use the cache without first enable it
+    in software. The cache will automatically be flushed before
+    enabled.
+
+config L2_WT
+    bool "Enable write-through at power-on"
+    depends on L2_ENABLE
+    default n
+    help
+    The L2 cache operates by default in copy-back mode. Say yes
+    here to enable write-through operation at power-on.
+
+config L2_RAN
+    bool "Random replacement (LRU default)"
+    depends on L2_ENABLE
+    default n
+    help
+    Say Y here to enable random replacement policy rather then
+    the default LRU.
+
+config L2_SHARE
+    bool "Shared RAM for multi-way caches"
+    depends on L2_ENABLE && (! L2_ASSO1)
+    default n
+    help
+    Say yes here to implement one shared data RAM for all cache ways.
+    This will reduce the number of RAM blocks for multi-way caches.
+
+config L2_MAP
+    hex "Cacheability map"
+    depends on L2_ENABLE
+    default 00F0
+    help
+    This 16-bit hexadecimal vaule defines which address areas
+    are to be cacheable by the L2 cache. Each bit set indicates
+    a cacheable 256 Mbyte block. The left-most bit (LSB) indicates
+    address 0 - 256M and so on.
+
+config L2_MTRR
+    int "Number of MTRR registers"
+    depends on L2_ENABLE
+    default 0
+    help
+    Specify the number of MTRR registers. Each MTRR can define one
+    memory area to be uncached, write-through, or copy-back.
+
+config L2_EDAC
+    bool "Enable EDAC"
+    depends on L2_ENABLE
+    default n
+    help
+    Say yes here to enable EDAC protection.
+
+config L2_AXI
+    bool "AXI backend interface"
+    depends on L2_ENABLE
+    default n
+    help
+    Say yes here to enable AXI backend interface
+

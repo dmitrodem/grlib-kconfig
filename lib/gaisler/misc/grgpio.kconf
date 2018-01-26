@@ -1,0 +1,23 @@
+menuconfig GRGPIO_ENABLE
+    bool "Enable generic GPIO port"
+    default n
+    help
+    Say Y here to enable a general purpose I/O port. The port can be
+    configured from 1 - 32 bits, whith each port signal individually
+    programmable as input or output. The port signals can also serve
+    as interrupt inputs.
+
+config GRGPIO_WIDTH
+    int "GPIO width"
+    depends on GRGPIO_ENABLE
+    default 8
+    help
+    Number of bits in the I/O port. Must be in the range of 1 - 32.
+
+config GRGPIO_IMASK
+    hex "GPIO interrupt mask"
+    depends on GRGPIO_ENABLE
+    default 0000
+    help
+    The I/O port interrupt mask defines which bits in the I/O port
+    should be able to create an interrupt. 

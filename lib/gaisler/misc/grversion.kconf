@@ -1,0 +1,19 @@
+menuconfig GRVERSION_ENABLE
+    bool "Version and Revision Register"
+    default n
+    help
+    Say Y here to enable Version and Revision Register.
+    
+config GRVERSION_VERSION
+    hex "Version"
+    depends on GRVERSION_ENABLE
+    default 0000
+    help
+    Version number, 16-bit.
+    
+config GRVERSION_REVISION
+    hex "Revision"
+    depends on GRVERSION_ENABLE
+    default 0000
+    help
+    Revision number, 16-bit.

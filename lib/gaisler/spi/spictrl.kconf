@@ -1,0 +1,103 @@
+menuconfig SPICTRL_ENABLE
+    bool "SPI controller(s)"
+    default n
+    help
+    Say Y here to enable the SPI controller(s)
+
+config SPICTRL_NUM
+    int "Number of SPI controllers"
+    depends on SPICTRL_ENABLE
+    default 1
+    help
+    Number of SPI controllers to implement in design. Note that most
+    template designs are limited to one SPI controller.
+    Configuration options made here in xconfig will apply to all
+    implemented SPI controllers.
+
+config SPICTRL_SLVS 
+    int "Slave select lines"
+    depends on SPICTRL_ENABLE
+    default 1
+
+config SPICTRL_FIFO
+    int "FIFO depth (2^N)"
+    depends on SPICTRL_ENABLE
+    default 1
+
+config SPICTRL_SLVREG
+    bool "Enable slave select registers"
+    depends on SPICTRL_ENABLE
+    default n
+    
+config SPICTRL_ASEL
+    bool "Enable automatic slave select"
+    depends on SPICTRL_ENABLE
+    default n
+
+config SPICTRL_AM
+    bool "Support automated transfers"
+    depends on SPICTRL_ENABLE
+    default n
+
+config SPICTRL_ODMODE
+    bool "Support open drain mode"
+    depends on SPICTRL_ENABLE
+    default n
+
+config SPICTRL_TWEN
+    bool "Support three-wire protocol"
+    depends on SPICTRL_ENABLE
+    default n
+
+config SPICTRL_MAXWLEN
+    int "Maximum supported word length (see help!)"
+    depends on SPICTRL_ENABLE
+    default 0
+    help
+    0: Core will support lengths up to 32 bits
+    1-2: Illegal values
+    3-15: Maximum word length will be value+1 (4-16)
+
+config SPICTRL_SYNCRAM
+    bool "Use SYNCRAM for rx and tx queues"
+    depends on SPICTRL_ENABLE
+    default n
+    help
+    Say Y here to use SYNCRAM_2P components for the core's receive
+    and transmit queues. This is the recommended setting, particularly
+    if the core is implemented with support for automatic mode.
+
+choice
+    prompt "Fault-tolerance"
+    depends on SPICTRL_ENABLE && SPICTRL_SYNCRAM
+    default SPICTRL_NOFT
+    help
+    Fault-tolerance for internal buffers. Only applicable if core
+    buffers are implemented with SYNCRAM components
+
+config SPICTRL_NOFT
+    bool "None"
+
+config SPICTRL_DMRFT
+    bool "Parity-DMR"
+
+config SPICTRL_TMRFT
+    bool "TMR"
+
+endchoice
+
+choice 
+    prompt "SPI protocols"
+    depends on SPICTRL_ENABLE
+    default SPICTRL_PROT0
+
+config SPICTRL_PROT0
+    bool "Standard"
+
+config SPICTRL_PROT1
+    bool "Dual"
+
+config SPICTRL_PROT2
+    bool "Quad"
+
+endchoice

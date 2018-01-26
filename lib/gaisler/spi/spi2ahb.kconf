@@ -1,0 +1,61 @@
+menuconfig SPI2AHB
+    bool "SPI to AHB bridge"
+    default n
+    help
+    Say Y here to enable SPI2AHB
+
+config SPI2AHB_APB
+    bool "Enable APB interface"
+    depends on SPI2AHB
+    default n
+    help
+    Say Y here to include the core's APB interface
+
+config SPI2AHB_ADDRH
+    hex "AHB protection address (high)"
+    depends on SPI2AHB
+    default 0000
+    help
+    Defines address bits 31:16 of the core's AHB protection area 
+
+config SPI2AHB_ADDRL
+    hex "AHB protection address (low)"
+    depends on SPI2AHB
+    default 0000
+    help
+    Defines address bits 15:0 of the core's AHB protection area 
+
+config SPI2AHB_MASKH
+    hex "AHB protection mask (high)"
+    depends on SPI2AHB
+    default 0000
+    help
+    Defines mask bits 31:16 of the core's AHB protection area 
+
+config SPI2AHB_MASKL
+    hex "AHB protection mask (low)"
+    depends on SPI2AHB
+    default 0000
+    help
+    Defines mask bits 15:0 of the core's AHB protection area 
+
+config SPI2AHB_RESEN
+    bool "Enable after reset"
+    depends on SPI2AHB
+    default n
+    help
+    Say Y here to enable the core after reset (APB version only)
+
+config SPI2AHB_CPOL
+    hex "Clock polarity"
+    depends on SPI2AHB
+    default 0
+    help
+    The core's clock polarity. Valid values are 0 and 1.
+
+config SPI2AHB_CPHA
+    hex "Clock phase"
+    depends on SPI2AHB
+    default 0
+    help
+    The core's clock phase. Valid values are 0 and 1.

@@ -1,0 +1,63 @@
+menuconfig SPIMCTRL
+    bool "SPI memory controller"
+    default n
+    help
+    Say Y here to enable a simple SPI memory controller.
+    The controller maps a SPI memory device into AMBA address space and
+    also has a simple interface that allows sending commands directly
+    to the SPI device.
+
+config SPIMCTRL_READCMD
+    hex "Read instruction"
+    depends on SPIMCTRL
+    default 0B
+    help
+    Read instruction for SPI memory device (hex).
+
+config SPIMCTRL_DUMMYBYTE
+    bool "Read instruction requires dummy byte"
+    depends on SPIMCTRL
+    default n
+    help
+    Output dummy byte after address when issuing read instruction.
+
+config SPIMCTRL_DUALOUTPUT
+    bool "Enable dual output for reads"
+    depends on SPIMCTRL
+    default n
+    help
+    Memory device supports dual output when reading data.
+
+config SPIMCTRL_OFFSET
+    hex "Address offset"
+    depends on SPIMCTRL
+    default 0
+    help
+    Offset that will be added by core on SPI memory address (hex).
+
+config SPIMCTRL_SCALER
+    int "Clock divisor for device clock"
+    depends on SPIMCTRL
+    default 1
+    help
+    Selects the divisor used when dividing the system clock to produce
+    the memory device clock. The divisor used is two to the power of the
+    specified value. This value must be at least 1.
+
+config SPIMCTRL_ASCALER
+    int "Clock divisor for alt. device clock"
+    depends on SPIMCTRL
+    default 8
+    help
+    Selects the divisor used when dividing the system clock to produce 
+    the alternate memory device clock. If the selected memory device is 
+    a SD Card this clock will be used during card initialization. The
+    divisor used is two to the power of the specified value. This
+    value must be at least 1.
+
+config SPIMCTRL_PWRUPCNT
+    int "Number of clock cycles to idle after power up"
+    depends on SPIMCTRL
+    default 0
+    help
+    Number of system clock cycles to wait before issuing first command.

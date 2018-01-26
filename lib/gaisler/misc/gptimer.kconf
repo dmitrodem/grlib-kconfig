@@ -1,0 +1,60 @@
+menuconfig GPT_ENABLE
+    bool "Enable Timer Unit"
+    default n
+    help
+    Say Y here to enable the Modular Timer Unit. The timer unit consists
+    of one common scaler and up to 7 independent timers. The timer unit
+    is needed for Linux, RTEMS, eCos and the Bare-C run-times.
+
+config GPT_NTIM
+    int "Number of timers (1 - 7)"
+    depends on GPT_ENABLE
+    default 2
+    help
+    Set the number of timers in the timer unit (1 - 7).
+
+config GPT_SW
+    int "Scaler width (2 - 16)"
+    depends on GPT_ENABLE
+    default 8
+    help
+    Set the width if the common pre-scaler (2 - 16 bits). The scaler
+    is used to divide the system clock down to 1 MHz, so 8 bits should
+    be sufficient for most implementations (allows clocks up to 256 MHz).
+
+config GPT_TW
+    int "Timer width (2 - 32)"
+    depends on GPT_ENABLE
+    default 32
+    help
+    Set the width if the timers (2 - 32 bits). 32 bits is recommended
+    for the Bare-C run-time, lower values (e.g. 16 bits) can work with
+    RTEMS and Linux.
+
+config GPT_IRQ
+    int "Timer unit interrupt"
+    depends on GPT_ENABLE
+    default 8
+    help
+    Set the interrupt number for the first timer. Remaining timers will
+    have incrementing interrupts, unless the separate-interrupts option
+    below is disabled.
+
+config GPT_SEPIRQ
+    bool "Separate interrupts"
+    depends on GPT_ENABLE
+    default n
+
+config GPT_WDOGEN
+    bool "Watchdog enable"
+    depends on GPT_ENABLE
+    default n
+    help
+    Say Y here to enable the watchdog functionality in the timer unit.
+
+config GPT_WDOG
+    hex "Initial watchdog time-out value"
+    depends on GPT_ENABLE && GPT_WDOGEN
+    default FFFF
+    help
+    This value will be loaded in the watchdog timer at reset.

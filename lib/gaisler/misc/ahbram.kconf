@@ -1,0 +1,63 @@
+menuconfig AHBRAM_ENABLE
+    bool "On-chip AHB RAM"
+    help
+    Say Y here to add a block on on-chip ram to the AHB bus. The ram
+    provides 0-waitstates read access and 0/1 waitstates write access.
+    All AHB burst types are supported, as well as 8-, 16- and 32-bit
+    data size.
+
+choice
+    prompt "AHB RAM size (kbyte)"
+    depends on AHBRAM_ENABLE
+    default AHBRAM_SZ1
+    help
+    Set the size of the on-chip AHB ram. The ram is infered/instantiated
+    as four byte-wide ram slices to allow byte and half-word write
+    accesses. It is therefore essential that the target package can
+    infer byte-wide rams. This is currently supported on the generic,
+    virtex, virtex2, proasic and axellerator targets.
+config AHBRAM_SZ1
+    bool "1"
+config AHBRAM_SZ2
+    bool "2"
+config AHBRAM_SZ4
+    bool "4"
+config AHBRAM_SZ8
+    bool "8"
+config AHBRAM_SZ16
+    bool "16"
+config AHBRAM_SZ32
+    bool "32"
+config AHBRAM_SZ64
+    bool "64"
+config AHBRAM_SZ128
+    bool "128"
+config AHBRAM_SZ256
+    bool "256"
+config AHBRAM_SZ512
+    bool "512"
+config AHBRAM_SZ1024
+    bool "1024"
+config AHBRAM_SZ2048
+    bool "2048"
+config AHBRAM_SZ4096
+    bool "4096"
+endchoice
+
+config AHBRAM_START
+    hex "RAM start address (haddr[31:20])"
+    depends on AHBRAM_ENABLE
+    default A00
+    help
+    Set the start address of AHB RAM (HADDR[31:20]). The RAM will occupy
+    a 1 Mbyte slot at the selected address. Default is A00, corresponding
+    to AHB address 0xA0000000.
+
+config AHBRAM_PIPE
+    bool "Extra pipeline stage"
+    depends on AHBRAM_ENABLE
+    default n
+    help
+    Set this option to add an extra pipeline stage to the read data of the 
+    on-chip RAM. This can improve timing, especially when the memory is 
+    large, at the cost of adding an additional cycle delay on read.

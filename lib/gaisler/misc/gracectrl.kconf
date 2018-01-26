@@ -1,0 +1,5 @@
+config GRACECTRL
+    bool "Enable System ACE I/F Controller"
+    default n
+    help
+    Say Y here to enable the AMBA System ACE Interface Controller
